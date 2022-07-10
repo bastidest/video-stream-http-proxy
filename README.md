@@ -52,6 +52,74 @@ Commands (PTZ, Pan Tilt Zoom) issued from your browser are forwared to the Node.
 
 ```
 
+## Installation / Getting Started
+
+
+### Configuration
+The application is configured using a `.json` configuration file (see example configuration in `config.json`).
+The configuration file must be mounted at `/app/config.json` in the backend docker container (see `docker-compose.prod.yml`).
+A complete description of the JSON schema can be found in `src/server/ConfigParser.ts`.
+
+**`.output_path`**
+- description: Path to the directory storing the temporary DASH media files.
+- type: `string`
+- required: `true`
+
+**`.sources[]`**
+- description: Ordered list of all stream sources.
+- type: `array`
+- required: `true`
+
+**`.sources[].id`**
+- description: Unique identifier for the stream source.
+- type: `string`
+- required: `true`
+
+**`.sources[].target_latency`**
+- description: Total end to end latency that the browser tries to maintain. If set too low the browser buffers often. Can be changed temporarily in the fronted.
+- type: `number`
+- required: `false`
+- default: `4`
+
+**`.sources[].rtsp{}`**
+- description: Configuration of the rtsp source stream.
+- type: `object`
+- required: `anyOf(.sources[].rtsp{}, .sources[].onvif{})`
+
+**`.sources[].rtsp{}.url`**
+- description: The connection string used to connect (and authenticate with) the RTSP stream source. If the RTSP stream URL is determined using the ONVIF interface, this property overrides the ONVIF URL.
+- type: `string` ([see Connection Strings](#connection-strings))
+- required: `true`
+
+**`.sources[].onvif{}`**
+- description: Configuration for a ONVIF connection.
+- type: `object`
+- required: `anyOf(.sources[].rtsp{}, .sources[].onvif{})`
+
+**`.sources[].onvif{}.url`**
+- description: The connection string used to connect (and authenticate with) the ONVIF. Used to control the camera (PTZ) and retreive the RTSP streaming URL.
+- type: `string` ([see Connection Strings](#connection-strings))
+- required: `true`
+
+**`.sources[].onvif{}.profile`**
+- description: The ONVIF profile name to use.
+- type: `string`
+- required: `false`
+
+**`.sources[].onvif{}.protocol`**
+- description: The preferred protocol when retreiving the RTSP streaming URL from the ONVIF.
+- type: `string`, `"UDP" | "TCP" | "RTSP" | "HTTP"`
+- required: `false`
+
+
+#### Connection Strings
+- Format: [protocol `://`] [username [`:` password] `@`] hostname [`:` port] [`/` path] [`?` query]
+- Examples
+  - `mydomain.com`
+  - `myproto://michael@mydomain.com`
+  - `myproto://michael:secret%20password@mydomain.com:4634/some/path?some=args&more=args`
+
+
 ## Development
 1. Clone repository
 1. `./start.sh dev` -> Wait for the bash propmt
