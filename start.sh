@@ -3,6 +3,8 @@ set -euo pipefail
 
 source ./source.sh
 
+DOCKER_IMAGE_NAME=bastidest/video-stream-http-proxy
+
 function dc() {
     local compose_env="$1"
     shift
@@ -26,7 +28,7 @@ function prod() {
 }
 
 function build() {
-    docker build -t bastidest/video-stream-http-proxy:latest \
+    docker build -t "${DOCKER_IMAGE_NAME}:latest" \
            -f Dockerfile.prod \
            --build-arg "DOCKER_NODE_VERSION=${DOCKER_NODE_VERSION}" \
            --build-arg "DOCKER_FFMPEG_VERSION=${DOCKER_FFMPEG_VERSION}" \
@@ -100,7 +102,23 @@ case "$1" in
         echo "-- building docker image"
         build
 
-        echo "-- RELEASE SUCCESS, git+docker push now!"
+        echo "-- tagging docker image"
+        docker tag "${DOCKER_IMAGE_NAME}:latest" "${DOCKER_IMAGE_NAME}:${VERSION}"
+
+        read -r -p "-- git push? [Y/n]" response
+        response=${response,,} # tolower
+        if [[ $response =~ ^(yes|y| ) ]] || [[ -z $response ]]; then
+            git push --atomic origin master "v${VERSION}"
+        fi
+
+        read -r -p "-- docker push? [Y/n]" response
+        response=${response,,} # tolower
+        if [[ $response =~ ^(yes|y| ) ]] || [[ -z $response ]]; then
+            docker push "${DOCKER_IMAGE_NAME}:${VERSION}"
+            docker push "${DOCKER_IMAGE_NAME}:latest"
+        fi
+
+        echo "-- RELEASE DONE"
         ;;
     *)
         echo "unknown subcommand '$1'"
