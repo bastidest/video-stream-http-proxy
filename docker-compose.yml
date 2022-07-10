@@ -4,6 +4,13 @@ services:
   backend:
     image: bastidest/video-stream-http-proxy:latest
     ipc: host
+    volumes:
+      - ./config.json:/app/config.json:ro
   proxy:
-    image: nginx:1.22.0
+    image: nginx${DOCKER_NGINX_VERSION}
     ipc: host
+    volumes:
+      - ./nginx/proxy-headers.conf:/etc/nginx/proxy-headers.conf:ro
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - 80:80

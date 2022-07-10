@@ -20,6 +20,13 @@ function dev() {
     docker exec -it onvif-client-backend-1 bash
 }
 
+function build() {
+    docker build -t bastidest/video-stream-http-proxy:latest \
+           --build-arg "DOCKER_NODE_VERSION=${DOCKER_NODE_VERSION}" \
+           --build-arg "DOCKER_FFMPEG_VERSION=${DOCKER_FFMPEG_VERSION}" \
+           .
+}
+
 function ensure_node_modules() {
     # if node_modules directory exists and is r/w-able, all good
     if [[ -d node_modules && -w node_modules && -r node_modules ]] ; then
@@ -52,6 +59,9 @@ case "$1" in
     dev)
         ensure_node_modules
         dev
+        ;;
+    build)
+        build
         ;;
     lint)
         ensure_node_modules

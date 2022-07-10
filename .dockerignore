@@ -1,7 +1,9 @@
 # ignore everything
 *
 
-!/src/
+!/src
+!/types
+!/ffmpeg-wrapper.sh
 !/package.json
 !/package-lock.json
-!/docker-start.sh
+!/tsconfig.json

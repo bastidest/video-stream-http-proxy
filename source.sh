@@ -3,7 +3,7 @@ set -euo pipefail
 
 source .env
 
-export COMPOSE_PROJECT_NAME=onvif-client
+export COMPOSE_PROJECT_NAME=video-stream-http-proxy
 
 DOCKER_PWD=$(pwd)
 DOCKER_USER="$(id -u):$(id -g)"
@@ -20,15 +20,15 @@ function _docker_cmd() {
 }
 
 function _npm() {
-    _docker_cmd "node@$NODE_IMAGE" npm "$@"
+    _docker_cmd "node${DOCKER_NODE_VERSION}" npm "$@"
 }
 
 function _node() {
-    _docker_cmd "node@$NODE_IMAGE" node "$@"
+    _docker_cmd "node${DOCKER_NODE_VERSION}" node "$@"
 }
 
 function _node_run() {
-    _docker_cmd "node@$NODE_IMAGE" "$@"
+    _docker_cmd "node${DOCKER_NODE_VERSION}" "$@"
 }
 
 # if is interactive shell, define aliases
