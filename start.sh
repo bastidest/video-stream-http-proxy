@@ -77,6 +77,31 @@ case "$1" in
         _node ./node_modules/.bin/tslint --project ./tsconfig.json
         _node ./node_modules/.bin/tsc --project ./tsconfig.json --noEmit
         ;;
+    release)
+        VERSION=$(git-conventional-commits version)
+        echo "-- creating release for version ${VERSION}"
+
+        echo "-- patching package{,-lock}.json"
+        jq ".version=\"${VERSION}\"" package.json > package.json.tmp && mv package.json.tmp package.json
+        _npm i >/dev/null
+
+        echo "-- creating release commit"
+        git commit -am"build(release): bump project version to ${VERSION}"
+
+        echo "-- creating changelog"
+        git-conventional-commits changelog --release "$VERSION" --file CHANGELOG.md
+
+        echo "-- creating commit for changelog"
+        git commit -am"doc(release): create ${VERSION} change log entry"
+
+        echo "-- tagging version"
+        git tag -a -m"build(release): ${VERSION}" "v${VERSION}"
+
+        echo "-- building docker image"
+        build
+
+        echo "-- RELEASE SUCCESS, git+docker push now!"
+        ;;
     *)
         echo "unknown subcommand '$1'"
         exit 1
