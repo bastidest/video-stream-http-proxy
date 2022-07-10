@@ -52,3 +52,18 @@ Commands (PTZ, Pan Tilt Zoom) issued from your browser are forwared to the Node.
 
 ```
 
+## Development
+1. Clone repository
+1. `./start.sh dev` -> Wait for the bash propmt
+1. Access the dev command by pressing the "up" arrow
+1. Visit `http://localhost`
+
+### Release Workflow with `git-conventional-commits`
+1. Determine version by `git-conventional-commits version`
+1. Update version in project files
+   * Commit version bump `git commit -am'build(release): bump project version to <version>'`
+1. Generate change log by `git-conventional-commits changelog --release  <version> --file 'CHANGELOG.md'`
+   * Commit change log `git commit -am'doc(release): create <version> change log entry'`
+1. Tag commit with version `git tag -a -m'build(release): <version>' '<version-prefix><version>'`
+1. Push all changes `git push`
+1. Build and upload artifacts
