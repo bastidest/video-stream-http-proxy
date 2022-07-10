@@ -3,7 +3,7 @@ This project reads multiple video streams (e.g. RTSP) and outputs low-latency DA
 It handles many (>10) video streams with little without high CPU load if no video conversion is desired (e.g 4K -> 1080p or H265 -> H264).
 
 **Features**
-- ✅ Extensibile and flexible video encoding architecture to allow arbitrary stream conversions with FFMPEG
+- ✅ Extensible and flexible video encoding architecture to allow arbitrary stream conversions with FFMPEG
 - ✅ Low CPU load when no re-encoding is performed
 - ✅ Automatically stops streaming from sources after the last client disconnects
 - ✅ End-to-end latency ~2s for fast connections
@@ -53,7 +53,14 @@ Commands (PTZ, Pan Tilt Zoom) issued from your browser are forwared to the Node.
 ```
 
 ## Installation / Getting Started
+1. Copy the `docker-compose.prod.yml` template to wherever you want to deploy the application
+1. Replace the `${DOCKER_NGINX_VERSION}` variable with your desired nginx version
+1. Create the `config.json` configuration file
+1. Copy the nginx configuration template from `nginx/nginx.conf` and configure to your liking
+1. `docker-compose up -d`
 
+### Custom Encoding
+If you want to re-encode video streams, modify the `ffmpeg-wrapper.sh` script to your requirements and bind-mount it into the backend container.
 
 ### Configuration
 The application is configured using a `.json` configuration file (see example configuration in `config.json`).
@@ -97,7 +104,7 @@ A complete description of the JSON schema can be found in `src/server/ConfigPars
 - required: `anyOf(.sources[].rtsp{}, .sources[].onvif{})`
 
 **`.sources[].onvif{}.url`**
-- description: The connection string used to connect (and authenticate with) the ONVIF. Used to control the camera (PTZ) and retreive the RTSP streaming URL.
+- description: The connection string used to connect (and authenticate with) the ONVIF. Used to control the camera (PTZ) and retrieve the RTSP streaming URL.
 - type: `string` ([see Connection Strings](#connection-strings))
 - required: `true`
 
@@ -107,7 +114,7 @@ A complete description of the JSON schema can be found in `src/server/ConfigPars
 - required: `false`
 
 **`.sources[].onvif{}.protocol`**
-- description: The preferred protocol when retreiving the RTSP streaming URL from the ONVIF.
+- description: The preferred protocol when retrieving the RTSP streaming URL from the ONVIF.
 - type: `string`, `"UDP" | "TCP" | "RTSP" | "HTTP"`
 - required: `false`
 
@@ -122,7 +129,7 @@ A complete description of the JSON schema can be found in `src/server/ConfigPars
 
 ## Development
 1. Clone repository
-1. `./start.sh dev` -> Wait for the bash propmt
+1. `./start.sh dev` -> Wait for the bash prompt
 1. Access the dev command by pressing the "up" arrow
 1. Visit `http://localhost`
 
