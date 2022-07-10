@@ -56,7 +56,7 @@ while true; do
     esac
 done
 
-# one positional argument
+# two positional arguments: RTSP_URL and OUTPUT_PATH
 if [[ $# -ne 2 ]] ; then
     print_usage
     exit 1
