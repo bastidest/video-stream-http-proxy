@@ -1,6 +1,6 @@
 {
   "name": "video-stream-http-proxy",
-  "version": "0.0.0",
+  "version": "0.2.0",
   "description": "Reads multiple video streams (e.g. RTSP) and outputs low-latency DASH streams, accessible via a HTTP connection, viewable via a simple web interface",
   "main": "src/server/index.ts",
   "type": "module",
