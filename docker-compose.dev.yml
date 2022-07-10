@@ -17,7 +17,6 @@ services:
   proxy:
     image: nginx${DOCKER_NGINX_VERSION}
     volumes:
-      - ./nginx/proxy-headers.conf:/etc/nginx/proxy-headers.conf:ro
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
     ports:
       - 80:80
