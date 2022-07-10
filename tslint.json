@@ -1,0 +1,20 @@
+{
+  "defaultSeverity": "warning",
+  "extends": [
+    "tslint:recommended"
+  ],
+  "linterOptions": {
+    "exclude": [
+      "node_modules/**"
+    ]
+  },
+  "jsRules": true,
+  "rules": {
+    "quotemark": [true, "double"],
+    "indent": [true, "spaces", 2],
+    "interface-name": true,
+    "ordered-imports": false,
+    "object-literal-sort-keys": false,
+    "no-consecutive-blank-lines": false
+  }
+}

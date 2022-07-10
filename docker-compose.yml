@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  backend:
+    image: bastidest/video-stream-http-proxy:latest
+    ipc: host
+  proxy:
+    image: nginx:1.22.0
+    ipc: host

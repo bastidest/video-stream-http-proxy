@@ -1,0 +1,7 @@
+# ignore everything
+*
+
+!/src/
+!/package.json
+!/package-lock.json
+!/docker-start.sh

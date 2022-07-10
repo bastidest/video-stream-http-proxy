@@ -1,0 +1,37 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  link(rel='stylesheet' href='/static/index.css')
+body
+  button.hide-all +
+  .grid-wrapper
+    each source in sources
+      - var videoId = `stream-${source.id}`
+      - var latency = `${source.latency}`
+      .grid-el.stream(id=videoId data-latency=latency)
+        video(controls muted)
+        .log-and-controls.hidden
+          .wrapper
+            .controls
+              button(data-action="left") ←
+              button(data-action="right") →
+              button(data-action="home") ⌂
+              button(data-action="up") ↑
+              button(data-action="down") ↓
+              .latency
+                label latency&nbsp;
+                select(autocomplete="off")
+                  - var values = new Int32Array([1, 2, 3, 4, 5, 10, 15, 20, 25, 30, 45, 60])
+                  - if(values.indexOf(source.latency) < 0) values.push(source.latency);
+                  - values.sort();
+                  each val in values
+                    option(value=val selected=(val===source.latency ? "selected" : false))= val
+                label &nbsp;s
+              button(data-action="restart") ↺
+            .log(style="display: none;")
+          .switcher
+            button.active(data-id='ctrl') ctrl
+            button(data-id='log') log
+
+  script(src='https://reference.dashif.org/dash.js/v4.4.0/dist/dash.all.debug.js')
+  script(type='module' src='/static/index.js')
