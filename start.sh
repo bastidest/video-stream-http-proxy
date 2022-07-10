@@ -20,6 +20,11 @@ function dev() {
     docker exec -it video-stream-http-proxy-backend-1 bash
 }
 
+function prod() {
+    dc prod pull
+    dc prod up --detach
+}
+
 function build() {
     docker build -t bastidest/video-stream-http-proxy:latest \
            -f Dockerfile.prod \
@@ -60,6 +65,9 @@ case "$1" in
     dev)
         ensure_node_modules
         dev
+        ;;
+    prod)
+        prod
         ;;
     build)
         build
