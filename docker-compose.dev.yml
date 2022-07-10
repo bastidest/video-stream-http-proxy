@@ -5,7 +5,7 @@ services:
     image: bastidest/video-stream-http-proxy:latest-dev
     build:
       context: .
-      dockerfile: ./Dockerfile
+      dockerfile: ./Dockerfile.dev
     volumes:
       - ./:/app
     init: true
@@ -15,10 +15,9 @@ services:
       - "echo 'TS_NODE_PROJECT=\"./tsconfig.json\" node --experimental-specifier-resolution=node --inspect=0.0.0.0 --loader ./node_modules/ts-node/esm ./src/server/index.ts' > ~/.bash_history && exec tail -f /dev/null"
 
   proxy:
-    image: nginx:1.22.0
+    image: nginx${DOCKER_NGINX_VERSION}
     volumes:
       - ./nginx/proxy-headers.conf:/etc/nginx/proxy-headers.conf:ro
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./static:/app/static:ro
     ports:
       - 80:80

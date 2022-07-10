@@ -12,16 +12,17 @@ function dc() {
         exit 1
     fi
 
-    docker-compose -f docker-compose.yml -f "docker-compose.${compose_env}.yml" "$@"
+    docker-compose -f "docker-compose.${compose_env}.yml" "$@"
 }
 
 function dev() {
     dc dev up --build --detach
-    docker exec -it onvif-client-backend-1 bash
+    docker exec -it video-stream-http-proxy-backend-1 bash
 }
 
 function build() {
     docker build -t bastidest/video-stream-http-proxy:latest \
+           -f Dockerfile.prod \
            --build-arg "DOCKER_NODE_VERSION=${DOCKER_NODE_VERSION}" \
            --build-arg "DOCKER_FFMPEG_VERSION=${DOCKER_FFMPEG_VERSION}" \
            .

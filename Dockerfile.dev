@@ -1,0 +1,11 @@
+ARG DOCKER_FFMPEG_VERSION
+FROM mwader/static-ffmpeg${DOCKER_FFMPEG_VERSION} as ffmpeg
+
+ARG DOCKER_NODE_VERSION
+FROM node${DOCKER_NODE_VERSION}
+COPY --from=ffmpeg /ffmpeg /usr/local/bin/
+
+ENV NODE_ENV=development
+RUN mkdir /app && chown node:node /app
+USER node
+WORKDIR /app
