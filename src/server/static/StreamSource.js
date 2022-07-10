@@ -147,7 +147,7 @@ export class StreamSource {
       this.appendLog(eventObject.entry.content);
       return;
     }
-    if (eventObject.type === "target_latency") {
+    if (eventObject.type === "target_latency_secs") {
       this.onTargetLatencyUpdate(eventObject.value);
     }
   }
@@ -170,7 +170,7 @@ export class StreamSource {
     // only local target latency change for now
     // this.socket.send(
     //   JSON.stringify({
-    //     type: "target_latency",
+    //     type: "target_latency_secs",
     //     stream_id: this.streamId,
     //     value: newLatency,
     //   })

@@ -82,7 +82,7 @@ A complete description of the JSON schema can be found in `src/server/ConfigPars
 - type: `string`
 - required: `true`
 
-**`.sources[].target_latency`**
+**`.sources[].target_latency_secs`**
 - description: Total end to end latency that the browser tries to maintain. If set too low the browser buffers often. Can be changed temporarily in the fronted.
 - type: `number`
 - required: `false`

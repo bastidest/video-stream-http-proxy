@@ -107,7 +107,7 @@ function getStateForClient(streamers: FfmpegStreamer[]): IStateForClient {
   const sources = () =>
     streamers.map((s) => ({
       id: s.camera.id,
-      latency: s.camera.config.target_latency,
+      latency: s.camera.config.target_latency_secs,
     }));
 
   app.get("/", (req, res) => {
@@ -146,22 +146,22 @@ function getStateForClient(streamers: FfmpegStreamer[]): IStateForClient {
           const stateJson: string = JSON.stringify(state);
           socket.send(Buffer.from(stateJson, "utf8"));
           break;
-        case "target_latency": {
+        case "target_latency_secs": {
           const streamer: FfmpegStreamer | undefined = streamers.find(
             (s) => s.camera.id === msg.stream_id
           );
           if (streamer) {
-            streamer.camera.config.target_latency = msg.value;
+            streamer.camera.config.target_latency_secs = msg.value;
             console.log(
-              `set ${streamer.camera.id} latency = ${streamer.camera.config.target_latency}`
+              `set ${streamer.camera.id} latency = ${streamer.camera.config.target_latency_secs}`
             );
 
             wss.clients.forEach((client) => {
               if (client === socket) return;
               const msg = {
-                type: "target_latency",
+                type: "target_latency_secs",
                 id: streamer.camera.id,
-                value: streamer.camera.config.target_latency,
+                value: streamer.camera.config.target_latency_secs,
               };
               client.send(Buffer.from(JSON.stringify(msg), "utf8"));
             });

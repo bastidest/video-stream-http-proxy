@@ -3,14 +3,14 @@ set -eo pipefail
 
 FFMPEG="ffmpeg"
 MKDIR=0
-TARGET_LATENCY=4
+TARGET_LATENCY_SECS=4
 CLEAN_ON_EXIT=0
 
 function print_usage() {
-    echo "usage: ffmpeg-wrapper.sh [--use-docker] [--mkdir] [--target-latency seconds] [--clean-on-exit] RTSP_URL OUTPUT_PATH"
+    echo "usage: ffmpeg-wrapper.sh [--use-docker] [--mkdir] [--target-latency-secs seconds] [--clean-on-exit] RTSP_URL OUTPUT_PATH"
 }
 
-TEMP=$(getopt -o '' --long 'use-docker,mkdir,target-latency:,clean-on-exit' -n 'ffmpeg-wrapper.sh' -- "$@")
+TEMP=$(getopt -o '' --long 'use-docker,mkdir,target-latency-secs:,clean-on-exit' -n 'ffmpeg-wrapper.sh' -- "$@")
 if [[ $? -ne 0 ]] ; then
     echo "failed to parse command line arguments" >&2
     exit 1
@@ -30,11 +30,11 @@ while true; do
             shift
             continue
             ;;
-        '--target-latency')
-            TARGET_LATENCY="$2"
+        '--target-latency-secs')
+            TARGET_LATENCY_SECS="$2"
             shift 2
 
-            if [[ "$TARGET_LATENCY" -lt 3 || "$TARGET_LATENCY" -gt 3600 ]] ; then
+            if [[ "$TARGET_LATENCY_SECS" -lt 3 || "$TARGET_LATENCY_SECS" -gt 3600 ]] ; then
                 echo 'target latency should be in the range [3,3600]' >&2
                 exit 1
             fi
@@ -133,7 +133,7 @@ function stream() {
             -window_size 60 \
             -frag_type none \
             -tune zerolatency \
-            -target_latency "${TARGET_LATENCY}" \
+            -target_latency "${TARGET_LATENCY_SECS}" \
             -format_options "movflags=cmaf" \
             -export_side_data prft -write_prft 1 \
             "${OUTPUT_PATH}/manifest.mpd" &

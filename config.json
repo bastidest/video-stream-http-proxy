@@ -3,56 +3,56 @@
   "sources": [
     {
       "id": "traffic",
-      "target_latency": 10,
+      "target_latency_secs": 10,
       "rtsp": {
         "url": "rtsp://211.132.61.124:554/axis-media/media.amp?videocodec=h264&resolution=1280x720&videoformat-hdtv"
       }
     },
     {
       "id": "norway",
-      "target_latency": 10,
+      "target_latency_secs": 10,
       "rtsp": {
         "url": "rtsp://77.110.246.1:554/axis-media/media.amp?videocodec=h264&resolution=1280x720&videoformat-hdtv"
       }
     },
     {
       "id": "tree",
-      "target_latency": 10,
+      "target_latency_secs": 10,
       "rtsp": {
         "url": "rtsp://50.194.64.66:554/axis-media/media.amp?videocodec=h264&resolution=1280x720&videoformat-hdtv"
       }
     },
     {
       "id": "norway2",
-      "target_latency": 10,
+      "target_latency_secs": 10,
       "rtsp": {
         "url": "rtsp://79.161.235.219:554/axis-media/media.amp?videocodec=h264&camera=1&resolution=1920x1080&videoformat-hdtv"
       }
     },
     {
       "id": "us-traffic",
-      "target_latency": 10,
+      "target_latency_secs": 10,
       "rtsp": {
         "url": "rtsp://96.91.10.218:554/axis-media/media.amp?videocodec=h264&camera=1&resolution=1920x1080&videoformat-hdtv"
       }
     },
     {
       "id": "us-traffic2",
-      "target_latency": 10,
+      "target_latency_secs": 10,
       "rtsp": {
         "url": "rtsp://96.91.10.219:554/axis-media/media.amp?videocodec=h264&camera=1&resolution=1920x1080&videoformat-hdtv"
       }
     },
     {
       "id": "test",
-      "target_latency": 10,
+      "target_latency_secs": 10,
       "rtsp": {
         "url": "rtsp://demo:demo@ipvmdemo.dyndns.org:5541/onvif-media/media.amp?profile=profile_1_h264&sessiontimeout=60&streamtype=unicast"
       }
     },
     {
       "id": "church",
-      "target_latency": 20,
+      "target_latency_secs": 20,
       "rtsp": {
         "url": "rtsp://217.41.42.231:8554/axis-media/media.amp?videocodec=h264&resolution=1280x720&videoformat-hdtv"
       }

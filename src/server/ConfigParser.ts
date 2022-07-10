@@ -18,7 +18,7 @@ export interface IRtspSource {
 
 export interface IStreamSource {
   id: string;
-  target_latency?: number;
+  target_latency_secs?: number;
   onvif?: IOnvifSource;
   rtsp?: IRtspSource;
 }
@@ -90,7 +90,7 @@ const StreamSourceSchema: JSONSchemaType<IStreamSource> = {
       type: "object",
       $ref: "./RtspSource.json",
     },
-    target_latency: {
+    target_latency_secs: {
       type: "number",
       nullable: true,
     },
