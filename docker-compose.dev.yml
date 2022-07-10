@@ -3,6 +3,7 @@ version: '3.8'
 services:
   backend:
     image: bastidest/video-stream-http-proxy:latest-dev
+    ipc: host
     build:
       context: .
       dockerfile: ./Dockerfile.dev
@@ -16,6 +17,7 @@ services:
 
   proxy:
     image: nginx${DOCKER_NGINX_VERSION}
+    ipc: host
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
     ports:
