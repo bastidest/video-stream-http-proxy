@@ -5,7 +5,7 @@ services:
     image: bastidest/video-stream-http-proxy:latest
     ipc: host
     volumes:
-      - ./config.json:/app/config.json:ro
+      - ./config.toml:/app/config.toml:ro
   proxy:
     image: nginx${DOCKER_NGINX_VERSION}
     ipc: host
