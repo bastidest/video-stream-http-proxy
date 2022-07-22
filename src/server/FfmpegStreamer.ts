@@ -34,10 +34,8 @@ export class FfmpegStreamer {
 
     const args = ["--mkdir", "--clean-on-exit"];
 
-    if (this._camera.config.target_latency_secs) {
-      args.push("--target-latency");
-      args.push(`${this._camera.config.target_latency_secs}`);
-    }
+    args.push("--target-latency");
+    args.push(`${this._camera.config.target_latency_secs}`);
 
     const streamUrl = this._camera.streamUrl;
 

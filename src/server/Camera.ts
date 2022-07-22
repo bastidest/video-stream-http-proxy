@@ -1,18 +1,18 @@
 import { promisify } from "util";
 import { Cam as OnvifCam } from "onvif";
 
-import { IOnvifSourceConfig, IStreamSourceConfig } from "./Config";
+import { IOnvifSourceConfig, StreamSourceConfig } from "./Config";
 import { ConnectionString } from "./ConnectionString";
 import { IPtzArgs } from "./IPtzArgs";
 
 export class Camera {
   private static readonly CONNECTION_TIMEOUT = 5000;
 
-  public readonly config: IStreamSourceConfig;
+  public readonly config: StreamSourceConfig;
   private _streamUrl: string | null = null;
   private onvifConnection: OnvifCam | null = null;
 
-  constructor(config: IStreamSourceConfig) {
+  constructor(config: StreamSourceConfig) {
     this.config = config;
   }
 

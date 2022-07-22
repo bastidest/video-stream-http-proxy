@@ -7,7 +7,7 @@ import { ConfigParser } from "./ConfigParser";
 import { FfmpegStreamer } from "./FfmpegStreamer";
 import { IBufferEntry } from "./RingBuffer";
 import { isPtzArgs } from "./IPtzArgs";
-import { IRootConfig } from "./Config";
+import { RootConfig } from "./Config";
 
 const cp = new ConfigParser("config.json");
 
@@ -79,7 +79,7 @@ function getStateForClient(streamers: FfmpegStreamer[]): IStateForClient {
 }
 
 (async () => {
-  const config: IRootConfig = await cp.parse();
+  const config: RootConfig = await cp.parse();
   console.log(config);
 
   const sourceIds = config.sources.map((s) => s.id);
@@ -111,7 +111,7 @@ function getStateForClient(streamers: FfmpegStreamer[]): IStateForClient {
       latency: s.camera.config.target_latency_secs,
     }));
 
-  app.get("/", (req, res) => {
+  app.get("/", (_req, res) => {
     res.render(
       "index",
       {
@@ -128,7 +128,10 @@ function getStateForClient(streamers: FfmpegStreamer[]): IStateForClient {
   });
 
   app.use("/static", express.static(resolve("src/server/static")));
-  app.use("/vendor/dash.all.debug.js", express.static(resolve("node_modules/dashjs/dist/dash.all.debug.js")));
+  app.use(
+    "/vendor/dash.all.debug.js",
+    express.static(resolve("node_modules/dashjs/dist/dash.all.debug.js"))
+  );
 
   const listenPort = 3000;
   const rawHttpServer = app.listen(listenPort);
@@ -178,7 +181,7 @@ function getStateForClient(streamers: FfmpegStreamer[]): IStateForClient {
             streamer
               .stop()
               .then(() => streamer.start())
-              .catch((e) =>
+              .catch((_e) =>
                 console.error(
                   `failed to restart streamer ${streamer.camera.id}`
                 )
