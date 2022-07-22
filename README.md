@@ -58,7 +58,7 @@ Commands (PTZ, Pan Tilt Zoom) issued from your browser are forwarded to the Node
 ## Installation / Getting Started
 1. Copy the `docker-compose.prod.yml` template to wherever you want to deploy the application
 1. Replace the `${DOCKER_NGINX_VERSION}` variable with your desired nginx version
-1. Create the `config.json` configuration file
+1. Create the `config.toml` configuration file
 1. Copy the nginx configuration template from `nginx/nginx.conf` and configure to your liking
 1. `docker-compose up -d`
 
@@ -66,9 +66,10 @@ Commands (PTZ, Pan Tilt Zoom) issued from your browser are forwarded to the Node
 If you want to re-encode video streams, modify the `ffmpeg-wrapper.sh` script to your requirements and bind-mount it into the backend container.
 
 ### Configuration
-The application is configured using a `.json` configuration file (see example configuration in `config.json`).
-The configuration file must be mounted at `/app/config.json` in the backend docker container (see `docker-compose.prod.yml`).
-A complete description of the JSON schema can be found in `src/server/ConfigParser.ts`.
+The application is configured using a `.toml` *or* `.json` configuration file (see example configuration in `config.toml`).
+The TOML and JSON format is equivalent, but the `config.toml` file takes precedence over the `config.json` file.
+The configuration file must be mounted at `/app/config.toml` in the backend docker container (see `docker-compose.prod.yml`).
+A complete description of the TOML/JSON schema can be found in `src/server/ConfigParser.ts`.
 
 **`.output_path`**
 - description: Path to the directory storing the temporary DASH media files.
@@ -124,6 +125,8 @@ A complete description of the JSON schema can be found in `src/server/ConfigPars
 
 #### Connection Strings
 - Format: [protocol `://`] [username [`:` password] `@`] hostname [`:` port] [`/` path] [`?` query]
+- Notes
+  - As usual, the username, password, path and query components must be URI encoded (e.g. `encodeURIComponent("secret password") -> "secret%20password"`)
 - Examples
   - `mydomain.com`
   - `myproto://michael@mydomain.com`
