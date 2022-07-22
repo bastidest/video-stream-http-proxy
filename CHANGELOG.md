@@ -1,3 +1,9 @@
+## **0.3.0** <sub><sup>2022-07-22 ([d9e7f2d...d9f9b95](https://github.com/bastidest/video-stream-http-proxy/compare/d9e7f2d...d9f9b95?diff=split))</sup></sub>
+
+### Features
+*  self\-serve dash\.js library instead of referring to cdn ([d9e7f2d](https://github.com/bastidest/video-stream-http-proxy/commit/d9e7f2d))
+
+
 ## **0.2.1** <sub><sup>2022-07-10 ([8bdfff7...9d00967](https://github.com/bastidest/video-stream-http-proxy/compare/8bdfff7...9d00967?diff=split))</sup></sub>
 
 *no relevant changes*
