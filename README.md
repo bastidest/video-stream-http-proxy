@@ -1,4 +1,7 @@
 # Video Stream (ONVIF/RTSP/...) to HTTP/DASH Proxy
+
+[![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/bastidest/video-stream-http-proxy?color=teal&label=latest%20git)](https://github.com/bastidest/video-stream-http-proxy/tags) [![Docker Image Version (latest semver)](https://img.shields.io/docker/v/bastidest/video-stream-http-proxy?color=blue&label=latest%20dockerhub)](https://hub.docker.com/r/bastidest/video-stream-http-proxy) [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196?logo=conventionalcommits&logoColor=white)](https://conventionalcommits.org)
+
 This project reads multiple video streams (e.g. RTSP) and outputs low-latency DASH streams, accessible via a HTTP connection, viewable via a simple web interface.
 It handles many (>10) video streams with little without high CPU load if no video conversion is desired (e.g 4K -> 1080p or H265 -> H264).
 
