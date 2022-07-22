@@ -1,22 +1,22 @@
 import { promisify } from "util";
 import { Cam as OnvifCam } from "onvif";
 
-import { IOnvifSource, IStreamSource } from "./ConfigParser";
+import { IOnvifSourceConfig, IStreamSourceConfig } from "./Config";
 import { ConnectionString } from "./ConnectionString";
 import { IPtzArgs } from "./IPtzArgs";
 
 export class Camera {
   private static readonly CONNECTION_TIMEOUT = 5000;
 
-  public readonly config: IStreamSource;
+  public readonly config: IStreamSourceConfig;
   private _streamUrl: string | null = null;
   private onvifConnection: OnvifCam | null = null;
 
-  constructor(config: IStreamSource) {
+  constructor(config: IStreamSourceConfig) {
     this.config = config;
   }
 
-  private async setupOnvif(onvif: IOnvifSource) {
+  private async setupOnvif(onvif: IOnvifSourceConfig) {
     const onvifConString = ConnectionString.from(onvif.url);
 
     const waitForConnect = new Promise((resolve, reject) => {

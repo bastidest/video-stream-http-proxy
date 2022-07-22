@@ -4,29 +4,14 @@ import { JSONSchemaType } from "ajv/dist/2020";
 import { default as Ajv2020 } from "ajv/dist/2020";
 export const ajv = new Ajv2020();
 
-import { ConnectionString } from './ConnectionString';
-
-export interface IOnvifSource {
-  url: string;
-  profile?: string;
-  protocol?: string;
-}
-
-export interface IRtspSource {
-  url: string;
-}
-
-export interface IStreamSource {
-  id: string;
-  target_latency_secs?: number;
-  onvif?: IOnvifSource;
-  rtsp?: IRtspSource;
-}
-
-export interface IConfig {
-  output_path: string;
-  sources: IStreamSource[];
-}
+import { ConnectionString } from "./ConnectionString";
+import {
+  IOnvifSourceConfig,
+  IRootConfig,
+  IRtspSourceConfig,
+  IStreamSourceConfig,
+  RootConfig,
+} from "./Config";
 
 export class ParserError extends Error {
   public reason: any;
@@ -37,7 +22,7 @@ export class ParserError extends Error {
   }
 }
 
-const OnvifSourceSchema: JSONSchemaType<IOnvifSource> = {
+const OnvifSourceSchema: JSONSchemaType<IOnvifSourceConfig> = {
   $id: "https://github.com/bastidest/video-stream-http-proxy/schemas/config/OnvifSource.json",
   type: "object",
   properties: {
@@ -60,7 +45,7 @@ const OnvifSourceSchema: JSONSchemaType<IOnvifSource> = {
 ajv.addSchema(OnvifSourceSchema, "OnvifSourceSchema");
 export const validateOnvifSourceSchema = ajv.compile(OnvifSourceSchema);
 
-const RtspSourceSchema: JSONSchemaType<IRtspSource> = {
+const RtspSourceSchema: JSONSchemaType<IRtspSourceConfig> = {
   $id: "https://github.com/bastidest/video-stream-http-proxy/schemas/config/RtspSource.json",
   type: "object",
   properties: {
@@ -75,7 +60,7 @@ const RtspSourceSchema: JSONSchemaType<IRtspSource> = {
 ajv.addSchema(RtspSourceSchema, "RtspSourceSchema");
 export const validateRtspSourceSchema = ajv.compile(RtspSourceSchema);
 
-const StreamSourceSchema: JSONSchemaType<IStreamSource> = {
+const StreamSourceSchema: JSONSchemaType<IStreamSourceConfig> = {
   $id: "https://github.com/bastidest/video-stream-http-proxy/schemas/config/StreamSource.json",
   type: "object",
   properties: {
@@ -101,7 +86,7 @@ const StreamSourceSchema: JSONSchemaType<IStreamSource> = {
 ajv.addSchema(StreamSourceSchema, "StreamSourceSchema");
 export const validateStreamSourceSchema = ajv.compile(StreamSourceSchema);
 
-const ConfigSchema: JSONSchemaType<IConfig> = {
+const ConfigSchema: JSONSchemaType<IRootConfig> = {
   $id: "https://github.com/bastidest/video-stream-http-proxy/schemas/config/Config.json",
   type: "object",
   properties: {
@@ -130,13 +115,13 @@ export class ConfigParser {
     this.filepath = filepath;
   }
 
-  public async parse(): Promise<IConfig> {
+  public async parse(): Promise<RootConfig> {
     const configFileString: string = await fs.readFile(this.filepath, {
       encoding: "utf8",
     });
     const configObject: Object = JSON.parse(configFileString);
     if (validateConfigSchema(configObject)) {
-      return configObject;
+      return new RootConfig(configObject);
     } else {
       throw new ParserError(
         "invalid config schema",

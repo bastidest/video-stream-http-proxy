@@ -3,10 +3,11 @@ import { resolve } from "path";
 import WebSocket, { WebSocketServer } from "ws";
 import { Camera } from "./Camera";
 
-import { ConfigParser, IConfig } from "./ConfigParser";
+import { ConfigParser } from "./ConfigParser";
 import { FfmpegStreamer } from "./FfmpegStreamer";
 import { IBufferEntry } from "./RingBuffer";
 import { isPtzArgs } from "./IPtzArgs";
+import { IRootConfig } from "./Config";
 
 const cp = new ConfigParser("config.json");
 
@@ -78,7 +79,7 @@ function getStateForClient(streamers: FfmpegStreamer[]): IStateForClient {
 }
 
 (async () => {
-  const config: IConfig = await cp.parse();
+  const config: IRootConfig = await cp.parse();
   console.log(config);
 
   const sourceIds = config.sources.map((s) => s.id);
