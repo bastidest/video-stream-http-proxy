@@ -127,6 +127,7 @@ function getStateForClient(streamers: FfmpegStreamer[]): IStateForClient {
   });
 
   app.use("/static", express.static(resolve("src/server/static")));
+  app.use("/vendor/dash.all.debug.js", express.static(resolve("node_modules/dashjs/dist/dash.all.debug.js")));
 
   const listenPort = 3000;
   const rawHttpServer = app.listen(listenPort);
