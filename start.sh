@@ -1,5 +1,5 @@
 #!/bin/bash
-set -euo pipefail
+set -eo pipefail
 
 source ./source.sh
 
@@ -50,6 +50,11 @@ function ensure_node_modules() {
     echo "error: could not access node_modules: directory is not readable or writable, check permissions"
     exit 2
 }
+
+if [[ $# -lt 1 ]]; then
+    prod
+    exit 0
+fi
 
 case "$1" in
     dc)
