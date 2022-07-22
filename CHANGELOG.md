@@ -1,3 +1,9 @@
+## **0.4.0** <sub><sup>2022-07-22 ([5c45ffa...b32f099](https://github.com/bastidest/video-stream-http-proxy/compare/5c45ffa...b32f099?diff=split))</sup></sub>
+
+### Features
+*  support TOML as configuration language ([dc0415b](https://github.com/bastidest/video-stream-http-proxy/commit/dc0415b))
+
+
 ## **0.3.0** <sub><sup>2022-07-22 ([d9e7f2d...d9f9b95](https://github.com/bastidest/video-stream-http-proxy/compare/d9e7f2d...d9f9b95?diff=split))</sup></sub>
 
 ### Features
