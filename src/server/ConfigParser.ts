@@ -4,6 +4,8 @@ import { JSONSchemaType } from "ajv/dist/2020";
 import { default as Ajv2020 } from "ajv/dist/2020";
 export const ajv = new Ajv2020();
 
+import toml from "@ltd/j-toml";
+
 import { ConnectionString } from "./ConnectionString";
 import {
   IOnvifSourceConfig,
@@ -109,17 +111,59 @@ ajv.addSchema(ConfigSchema, "ConfigSchema");
 export const validateConfigSchema = ajv.compile(ConfigSchema);
 
 export class ConfigParser {
-  private filepath: string;
+  private filepathBasename: string;
 
-  public constructor(filepath: string) {
-    this.filepath = filepath;
+  public constructor(filepathBasename: string) {
+    this.filepathBasename = filepathBasename;
   }
 
   public async parse(): Promise<RootConfig> {
-    const configFileString: string = await fs.readFile(this.filepath, {
-      encoding: "utf8",
-    });
-    const configObject: Object = JSON.parse(configFileString);
+    const tomlFilename = `${this.filepathBasename}.toml`;
+    const jsonFilename = `${this.filepathBasename}.json`;
+
+    const tomlString: string | Error = await fs
+      .readFile(tomlFilename, {
+        encoding: "utf8",
+      })
+      .catch((e: Error) => e);
+
+    let configObject: Object;
+
+    if (typeof tomlString === "string") {
+      try {
+        configObject = toml.parse(tomlString, "1.0", false);
+        console.log(`successfully parsed ${tomlFilename}`);
+      } catch (e: any) {
+        throw new ParserError(
+          `failed to parse TOML configuration file ${tomlFilename}`,
+          e
+        );
+      }
+    } else {
+      const jsonString: string | Error = await fs
+        .readFile(jsonFilename, {
+          encoding: "utf8",
+        })
+        .catch((e: Error) => e);
+
+      if (typeof jsonString !== "string") {
+        throw new ParserError(
+          `failed to read a TOML or JSON configuration file (${tomlFilename}, ${jsonFilename})`,
+          [tomlString, jsonString]
+        );
+      }
+
+      try {
+        configObject = JSON.parse(jsonString);
+        console.log(`successfully parsed ${jsonFilename}`);
+      } catch (e) {
+        throw new ParserError(
+          `failed to parse JSON configuration file ${jsonFilename}`,
+          e
+        );
+      }
+    }
+
     if (validateConfigSchema(configObject)) {
       return new RootConfig(configObject);
     } else {

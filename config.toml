@@ -1,0 +1,52 @@
+# video-stream-http-proxy configuration file
+
+# the file path where the converted source streams are written to (temporarily)
+output_path = "/dev/shm/video-stream-http-proxy"
+
+# each source is declared as an element of the "sources" array:
+
+[[sources]]
+# an identifier, mainly for internal naming, must be unique!
+id = "traffic"
+
+# the targeted end to end latency of the video stream, end = your eyes
+target_latency_secs = 10
+
+# the RTSP url for accessing the source stream
+rtsp.url = "rtsp://211.132.61.124:554/axis-media/media.amp?videocodec=h264&resolution=1280x720&videoformat-hdtv"
+
+
+[[sources]]
+id = "norway"
+target_latency_secs = 10
+rtsp.url = "rtsp://77.110.246.1:554/axis-media/media.amp?videocodec=h264&resolution=1280x720&videoformat-hdtv"
+
+[[sources]]
+id = "tree"
+target_latency_secs = 10
+rtsp.url = "rtsp://50.194.64.66:554/axis-media/media.amp?videocodec=h264&resolution=1280x720&videoformat-hdtv"
+
+[[sources]]
+id = "norway2"
+target_latency_secs = 10
+rtsp.url = "rtsp://79.161.235.219:554/axis-media/media.amp?videocodec=h264&camera=1&resolution=1920x1080&videoformat-hdtv"
+
+[[sources]]
+id = "us-traffic"
+target_latency_secs = 10
+rtsp.url = "rtsp://96.91.10.218:554/axis-media/media.amp?videocodec=h264&camera=1&resolution=1920x1080&videoformat-hdtv"
+
+[[sources]]
+id = "us-traffic2"
+target_latency_secs = 10
+rtsp.url = "rtsp://96.91.10.219:554/axis-media/media.amp?videocodec=h264&camera=1&resolution=1920x1080&videoformat-hdtv"
+
+[[sources]]
+id = "test"
+target_latency_secs = 10
+rtsp.url = "rtsp://demo:demo@ipvmdemo.dyndns.org:5541/onvif-media/media.amp?profile=profile_1_h264&sessiontimeout=60&streamtype=unicast"
+
+[[sources]]
+id = "church"
+target_latency_secs = 20
+rtsp.url = "rtsp://217.41.42.231:8554/axis-media/media.amp?videocodec=h264&resolution=1280x720&videoformat-hdtv"

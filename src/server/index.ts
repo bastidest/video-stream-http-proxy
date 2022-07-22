@@ -9,7 +9,7 @@ import { IBufferEntry } from "./RingBuffer";
 import { isPtzArgs } from "./IPtzArgs";
 import { RootConfig } from "./Config";
 
-const cp = new ConfigParser("config.json");
+const cp = new ConfigParser("config");
 
 let streamsStarted = false;
 
