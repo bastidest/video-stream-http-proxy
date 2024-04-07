@@ -20,15 +20,15 @@ function _docker_cmd() {
 }
 
 function _npm() {
-    _docker_cmd "node${DOCKER_NODE_VERSION}" npm "$@"
+    _docker_cmd "${DOCKER_NODE_IMAGE}" npm "$@"
 }
 
 function _node() {
-    _docker_cmd "node${DOCKER_NODE_VERSION}" node "$@"
+    _docker_cmd "${DOCKER_NODE_IMAGE}" node "$@"
 }
 
 function _node_run() {
-    _docker_cmd "node${DOCKER_NODE_VERSION}" "$@"
+    _docker_cmd "${DOCKER_NODE_IMAGE}" "$@"
 }
 
 # if is interactive shell, define aliases

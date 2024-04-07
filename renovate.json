@@ -1,0 +1,12 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "customManagers": [
+    {
+      "fileMatch": ["^.env$"],
+      "matchStrings": [
+        "DOCKER_.*?_IMAGE=(?<depName>.*?):(?<currentValue>.*?)@(?<currentDigest>sha256:[a-f0-9]+)\\s"
+      ],
+      "datasourceTemplate": "docker"
+    }
+  ]
+}
