@@ -14,7 +14,7 @@ services:
     command:
       - "bash"
       - "-c"
-      - "echo 'TS_NODE_PROJECT=\"./tsconfig.json\" node --experimental-specifier-resolution=node --inspect=0.0.0.0 --loader ./node_modules/ts-node/esm ./src/server/index.ts' > ~/.bash_history && exec tail -f /dev/null"
+      - "echo 'TS_NODE_PROJECT=tsconfig.json node --experimental-specifier-resolution=node --inspect=0.0.0.0 --loader ts-node/esm ./src/server/index.ts' > ~/.bash_history && exec tail -f /dev/null"
 
   proxy:
     image: ${DOCKER_NGINX_IMAGE}
